@@ -10,15 +10,16 @@ ITEM_MAP = {
     "2478": "53%vol 500ml贵州茅台酒（珍品）"
 }
 
-ITEM_CODES = ['10213', '10214','2478']   # 需要预约的商品(默认只预约2个赚钱的茅子)
+ITEM_CODES = ['10213', '10214','2478']   # 需要预约的商品(默认只预约3个赚钱的茅子)
 
 '''
 *********** 消息推送配置 ***********
 push plus 微信推送,具体使用参考  https://www.pushplus.plus
 如没有配置则不推送消息
-为了安全,这里使用的环境配置.git里面请自行百度如何添加secrets.pycharm也可以自主添加.如果你实在不会,就直接用明文吧（O.o）
+为了安全,建议使用.git添加secrets
+这里使用明文
 '''
-PUSH_TOKEN = os.environ.get("PUSHPLUS_KEY")
+PUSH_TOKEN = "7eb4afb6f825448d9c4088e25f645c44"
 
 
 '''
