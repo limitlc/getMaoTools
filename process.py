@@ -44,9 +44,9 @@ mt_version = json.loads(requests.get('https://itunes.apple.com/cn/lookup?id=1600
 
 
 header_context = f'''
-MT-Lat: 28.499562
+MT-Lat: 34.77455
 MT-K: 1675213490331
-MT-Lng: 102.182324
+MT-Lng: 113.77802
 Host: app.moutai519.com.cn
 MT-User-Tag: 0
 Accept: */*
@@ -141,8 +141,8 @@ def get_location_count(province: str,
                        item_code: str,
                        p_c_map: dict,
                        source_data: dict,
-                       lat: str = '29.83826',
-                       lng: str = '102.182324'):
+                       lat: str = '34.77455',
+                       lng: str = '113.77802'):
     day_time = int(time.mktime(datetime.date.today().timetuple())) * 1000
     session_id = headers['current_session_id']
     responses = requests.get(
@@ -165,8 +165,8 @@ def distance_shop(city,
                   province,
                   shops,
                   source_data,
-                  lat: str = '28.499562',
-                  lng: str = '102.182324'):
+                  lat: str = '34.77455',
+                  lng: str = '113.77802'):
     # shop_ids = p_c_map[province][city]
     temp_list = []
     for shop in shops:
@@ -211,6 +211,25 @@ def max_shop(city, item_code, p_c_map, province, shops):
                 max_shop_id = shopId
     logging.debug(f'item code {item_code}, max shop id : {max_shop_id}, max count : {max_count}')
     return max_shop_id
+
+def min_shop(city, item_code, p_c_map, province, shops):
+    min_count = 0
+    min_shop_id = '0'
+    shop_ids = p_c_map[province][city]
+    for shop in shops:
+        shopId = shop['shopId']
+        items = shop['items']
+
+        if shopId not in shop_ids:
+            continue
+        for item in items:
+            if item['itemId'] != str(item_code):
+                continue
+            if item['inventory'] < min_count:
+                min_count = item['inventory']
+                min_shop_id = shopId
+    logging.debug(f'item code {item_code}, min shop id : {min_shop_id}, min count : {min_count}')
+    return min_shop_id
 
 
 encrypt = Encrypt(key=AES_KEY, iv=AES_IV)
@@ -285,7 +304,7 @@ def select_geo(i: str):
     return geocodes
 
 
-def get_map(lat: str = '28.499562', lng: str = '102.182324'):
+def get_map(lat: str = '34.77455', lng: str = '113.77802'):
     p_c_map = {}
     url = 'https://static.moutai519.com.cn/mt-backend/xhr/front/mall/resource/get'
     headers = {
